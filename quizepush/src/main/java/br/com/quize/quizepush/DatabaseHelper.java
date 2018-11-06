@@ -15,13 +15,13 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "quizepush";
-    private static final String TABLE_NAME = "notification";
-    private static final String NOTIFICATION_ID = "id";
-    private static final String NOTIFICATION_TITLE = "title";
-    private static final String NOTIFICATION_TEXT = "text";
-    private static final String NOTIFICATION_DATE = "date";
-    private static final String NOTIFICATION_STATUS = "status";
+    public static final String DATABASE_NAME = "quizepush";
+    public static final String TABLE_NAME = "notification";
+    public static final String NOTIFICATION_ID = "id";
+    public static final String NOTIFICATION_TITLE = "title";
+    public static final String NOTIFICATION_TEXT = "text";
+    public static final String NOTIFICATION_DATE = "date";
+    public static final String NOTIFICATION_STATUS = "status";
 
     private static final String  DATEFORMAT = "yyyy-MM-dd HH:mm";
     private static final String STATUS_NEW = "new";
@@ -30,15 +30,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    private class Notification{
+    public class Notification{
 
-        private String ID;
-        private String TITLE;
-        private String TEXT;
-        private Date DATE;
-        private String STATUS;
+        public String ID;
+        public String TITLE;
+        public String TEXT;
+        public Date DATE;
+        public String STATUS;
 
-        private Notification(String Id,String Title,String Text,String Date,String Status) {
+        public Notification(String Id,String Title,String Text,String Date,String Status) {
             this.ID = Id;
             this.TITLE = Title;
             this.TEXT = Text;
@@ -46,7 +46,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat(DATEFORMAT);
             try {
-                this.DATE = dateFormat.parse(Date);
+                Date date = dateFormat.parse(Date);
+                this.DATE = date;
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -54,16 +55,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    private SQLiteDatabase db;
+    SQLiteDatabase db;
 
-    private DatabaseHelper(Context context) {
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
         db = this.getWritableDatabase();
     }
 
 
 
-    private String AdjustNotificationDate(String sDate,String date){
+    public String AdjustNotificationDate(String sDate,String date){
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATEFORMAT);
         try {
@@ -86,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    private void CreateNotification(String id,String title,String text,String date){
+    public void CreateNotification(String id,String title,String text,String date){
 
         if(CheckIfExits(id)){
             return;
