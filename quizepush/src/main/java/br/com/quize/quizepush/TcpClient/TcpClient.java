@@ -11,7 +11,7 @@ import java.util.Date;
 public class TcpClient {
 
     public static final String TAG = TcpClient.class.getSimpleName();
-    private static final String SERVER_IP = "172.20.10.2"; //server IP address
+    private static final String SERVER_IP = "18.217.197.99"; //server IP address
     private static final int SERVER_PORT = 10069;
 
 
