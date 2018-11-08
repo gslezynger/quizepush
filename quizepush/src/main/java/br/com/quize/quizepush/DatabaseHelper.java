@@ -127,9 +127,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
 
-        if (cursor.getString(0) == STATUS_SHOWN){
-            cursor.close();
-            return true;
+        if (cursor.moveToFirst()){
+            if(cursor.getString(0) == STATUS_SHOWN){
+                cursor.close();
+                return true;
+            }
         }
         cursor.close();
         return false;
