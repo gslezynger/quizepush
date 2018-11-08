@@ -126,8 +126,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
             return false;
         }
-
         if (cursor.moveToFirst()){
+            Log.e("PUSH","FOUND NOTIFICATION");
+            Log.e("PUSH","NOTIFICATION STATUS: " + cursor.getString(0));
+
             if(cursor.getString(0) == STATUS_SHOWN){
                 cursor.close();
                 return true;
