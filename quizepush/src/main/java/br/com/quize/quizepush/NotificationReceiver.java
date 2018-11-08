@@ -26,9 +26,9 @@ public class NotificationReceiver extends BroadcastReceiver {
             int id = intent.getIntExtra(NOTIFICATION_ID, 0);
             String idMessage = intent.getStringExtra(NOTIFICATION_MESSAGEID);
 
-            Log.e("PUSH","PASSANDO AQUI");
 
             if(!NotificationService.CheckMessageShown(context,idMessage)){
+                Log.e("PUSH","PASSANDO AQUI ONDE NAO DEVERIA");
                 notificationManager.notify(id, notification);
                 NotificationService.ShowedMessage(context,idMessage);
             }else{
