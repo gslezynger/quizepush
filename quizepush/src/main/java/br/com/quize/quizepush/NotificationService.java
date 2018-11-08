@@ -22,20 +22,20 @@ import br.com.quize.quizepush.PushQuize.PushQuize;
 public class NotificationService extends JobService {
     private static final int JOB_ID = 69;
     //5 minute interval
-    private static final int INTERVAL =  1000 * 60 * 5;
+    private static final int INTERVAL =  1000 * 30 * 1;
 
     public static void schedule(Context context) {
 //        if(isJobServiceOn(context)){
 //            Toast.makeText(context, "  JOB ALREADY STARTED ", Toast.LENGTH_LONG).show();
 //            return;
 //        }
+        Log.e("PUSH","Scheduling Push Loader");
         ComponentName component = new ComponentName(context, NotificationService.class);
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, component);
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            builder
-                    .setMinimumLatency(INTERVAL);
+            builder.setMinimumLatency(INTERVAL);
         }else{
             builder.setPeriodic(INTERVAL).setPersisted(true);
         }
@@ -93,10 +93,6 @@ public class NotificationService extends JobService {
             }
         });
 
-//        NotificationHelper notificationHelper = new NotificationHelper(this.getApplicationContext());
-//        notificationHelper.scheduleNotification(notificationHelper.createNotification("Quize","O jogo começa agora!"),1000);
-//        PushQuize p = new PushQuize(this.getApplicationContext());
-//        p.StartClient();
     }
 
     public static  void LoadAndScheduleAlarmNotifications(Context context){
@@ -108,11 +104,6 @@ public class NotificationService extends JobService {
         for (DatabaseHelper.Notification n :notificationList ) {
             if(!n.DATE.before(new Date())){
                 Notification noti = notificationHelper.createNotification(n.TITLE,n.TEXT);
-//                long delay = (n.DATE.getTime() - new Date().getTime());
-
-
-//                Log.e("PUSH","Notification scheduled: " + delay);
-//                Toast.makeText(context, "  Scheduling Notifications " + delay, Toast.LENGTH_LONG).show();
 
                 notificationHelper.scheduleNotification(noti,n.ID,n.DATE.getTime());
                 db.UpdateHasScheduleNotification(n.ID);
@@ -125,6 +116,7 @@ public class NotificationService extends JobService {
         }
     }
     public static  void LoadAndRescheduleAlarmNotifications(Context context){
+        Log.e("PUSH","Rescheduling notifications");
         DatabaseHelper db = new DatabaseHelper(context);
         NotificationHelper notificationHelper = new NotificationHelper(context);
 
@@ -133,21 +125,14 @@ public class NotificationService extends JobService {
         for (DatabaseHelper.Notification n :notificationList ) {
             if(!n.DATE.before(new Date())){
                 Notification noti = notificationHelper.createNotification(n.TITLE,n.TEXT);
-//                long delay = (n.DATE.getTime() - new Date().getTime());
-
-
-
-//                Toast.makeText(context, "  Scheduling Notifications " + delay, Toast.LENGTH_LONG).show();
-
                 notificationHelper.scheduleNotification(noti,n.ID,n.DATE.getTime());
                 db.UpdateHasScheduleNotification(n.ID);
-
             }else{
-
                 db.DeleteNotification(n.ID);
             }
         }
     }
+
     public static void ShowedMessage(Context context,String id){
         Log.e("PUSH","Message displayed: " + id);
         DatabaseHelper db = new DatabaseHelper(context);

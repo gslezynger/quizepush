@@ -77,8 +77,7 @@ public class NotificationHelper {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, idcontrol, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
 
-        long futureInMillisAux = futureInMillis - new Date().getTime();
-
+        long futureInMillisAux = futureInMillis - System.currentTimeMillis();
 
 //        Log.e("PUSH","Notification scheduled: " + data);
         Log.e("PUSH","Notification scheduled in millis update: " + futureInMillisAux);
