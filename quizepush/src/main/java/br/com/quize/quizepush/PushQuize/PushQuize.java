@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.security.SecureRandom;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -330,7 +331,7 @@ public class PushQuize {
                             //only receives messages and acks
                             if(header.control == ACK){
                                 hanshaked = true;
-                                Log.e("PUSH","ACKed com sucesso");
+//                                Log.e("PUSH","ACKed com sucesso");
                                 return ;
                             }
                             if(header.control == MS){
@@ -343,13 +344,14 @@ public class PushQuize {
                                 Message message = new Message(datamessage);
 
                                 if (message.canceled == 0) {
+                                    Log.e("PUSH", Arrays.toString(message.text));
                                     callback.newNotification(message.GetMessageId(),message.GetMessageTitle(),message.GetMessageText(),message.GetMessageDate(),message.GetMessageServerDate());
                                 }else {
                                     callback.cancelNotification(message.GetMessageId());
                                 }
 
                                 client.SendMessage(GenerateMessageAckPacket(header.id,message.messageId));
-                                Log.e("PUSH","Messaged com sucesso: " + message.GetMessageTitle().trim() + message.GetMessageText().trim());
+//                                Log.e("PUSH","Messaged com sucesso: " + message.GetMessageTitle().trim() + message.GetMessageText().trim());
                             }
                             if(header.control == ES){
                                 client.stopClient();
