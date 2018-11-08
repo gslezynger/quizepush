@@ -122,6 +122,7 @@ public class PushQuize {
         byte[] text = new byte[128];
         byte[] date = new byte[16];
         byte[] serverDate = new byte[16];
+        byte canceled;
 
         private Message( byte[] data ){
             messageId = java.util.Arrays.copyOfRange(data,0,32);
@@ -129,6 +130,7 @@ public class PushQuize {
             text = java.util.Arrays.copyOfRange(data,160,288);
             date = java.util.Arrays.copyOfRange(data,288,304);
             serverDate = java.util.Arrays.copyOfRange(data,304,320);
+            canceled = data[320];
         }
         private String GetMessageText(){
             try{
@@ -340,7 +342,11 @@ public class PushQuize {
                                 }
                                 Message message = new Message(datamessage);
 
-                                callback.newNotification(message.GetMessageId(),message.GetMessageTitle(),message.GetMessageText(),message.GetMessageDate(),message.GetMessageServerDate());
+                                if (message.canceled == 0) {
+                                    callback.newNotification(message.GetMessageId(),message.GetMessageTitle(),message.GetMessageText(),message.GetMessageDate(),message.GetMessageServerDate());
+                                }else {
+                                    callback.cancelNotification(message.GetMessageId());
+                                }
 
                                 client.SendMessage(GenerateMessageAckPacket(header.id,message.messageId));
                                 Log.e("PUSH","Messaged com sucesso: " + message.GetMessageTitle().trim() + message.GetMessageText().trim());
@@ -598,5 +604,6 @@ public class PushQuize {
     public interface OnNotificationAvailable {
         void endedNotification();
         void newNotification(String id, String title, String text, String date, String serverDate);
+        void cancelNotification(String id);
     }
 }

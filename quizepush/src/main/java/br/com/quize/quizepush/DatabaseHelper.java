@@ -118,6 +118,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return true;
     }
+    public  boolean CheckIfShown(String id) {
+
+        String Query = "Select status from " + TABLE_NAME + " where id = '" + id + "'";
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+
+        if (cursor.getString(0) == STATUS_SHOWN){
+            cursor.close();
+            return true;
+        }
+        cursor.close();
+        return false;
+    }
 
     public void UpdateHasScheduleNotification( String id ){
         db.execSQL("UPDATE "+ TABLE_NAME + " SET status = '" + STATUS_SCHEDULED + "' WHERE id = '" + id + "'");

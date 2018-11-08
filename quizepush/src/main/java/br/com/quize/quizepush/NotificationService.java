@@ -91,6 +91,12 @@ public class NotificationService extends JobService {
                 String adjusted_date = db.AdjustNotificationDate(serverDate,date);
                 db.CreateNotification(id,title,text,adjusted_date);
             }
+
+            @Override
+            public void cancelNotification(String id) {
+                DatabaseHelper db = new DatabaseHelper(context);
+                db.UpdateShownNotification(id);
+            }
         });
 
     }
@@ -137,6 +143,11 @@ public class NotificationService extends JobService {
         Log.e("PUSH","Message displayed: " + id);
         DatabaseHelper db = new DatabaseHelper(context);
         db.UpdateShownNotification(id);
+    }
+    public static Boolean CheckMessageShown(Context context,String id){
+        DatabaseHelper db = new DatabaseHelper(context);
+
+        return db.CheckIfShown(id);
     }
     public static boolean isJobServiceOn( Context context ) {
         JobScheduler scheduler = (JobScheduler) context.getSystemService( Context.JOB_SCHEDULER_SERVICE ) ;

@@ -25,8 +25,13 @@ public class NotificationReceiver extends BroadcastReceiver {
 
             int id = intent.getIntExtra(NOTIFICATION_ID, 0);
             String idMessage = intent.getStringExtra(NOTIFICATION_MESSAGEID);
-            notificationManager.notify(id, notification);
-            NotificationService.ShowedMessage(context,idMessage);
+
+            if(!NotificationService.CheckMessageShown(context,idMessage)){
+                notificationManager.notify(id, notification);
+                NotificationService.ShowedMessage(context,idMessage);
+            }else{
+                Log.e("PUSH","MESSAGE CANCELED");
+            }
         }
     }
 }
