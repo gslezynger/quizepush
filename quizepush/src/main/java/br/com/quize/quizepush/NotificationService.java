@@ -86,7 +86,7 @@ public class NotificationService extends JobService {
             @Override
             public void newNotification(String id, String title, String text, String date, String serverDate) {
 
-                Log.e("PUSH","NEW NOTIFICATION REVEIVED");
+                Log.e("PUSH","SAVING NEW NOTIFICATION");
                 DatabaseHelper db = new DatabaseHelper(context);
                 String adjusted_date = db.AdjustNotificationDate(serverDate,date);
                 db.CreateNotification(id,title,text,adjusted_date);
@@ -94,6 +94,7 @@ public class NotificationService extends JobService {
 
             @Override
             public void cancelNotification(String id) {
+                Log.e("PUSH","CANCELING NOTIFICATION");
                 DatabaseHelper db = new DatabaseHelper(context);
                 db.UpdateShownNotification(id);
             }
