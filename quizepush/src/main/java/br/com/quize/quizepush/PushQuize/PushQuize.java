@@ -344,7 +344,6 @@ public class PushQuize {
                                 Message message = new Message(datamessage);
 
                                 if (message.canceled == 0) {
-                                    Log.e("PUSH", Arrays.toString(message.text));
                                     callback.newNotification(message.GetMessageId(),message.GetMessageTitle(),message.GetMessageText(),message.GetMessageDate(),message.GetMessageServerDate());
                                 }else {
                                     callback.cancelNotification(message.GetMessageId());
