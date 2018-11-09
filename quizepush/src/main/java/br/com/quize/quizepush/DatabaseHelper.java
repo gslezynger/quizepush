@@ -146,7 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Notification> ListPendingScheduleNotification(){
         List<Notification> notis = new LinkedList<Notification>();
 
-        String query = "SELECT  * FROM "+ TABLE_NAME + " where status != '"+STATUS_SHOWN+"' and status != '" + STATUS_SCHEDULED + "' order by " + NOTIFICATION_DATE + " asc limit 1";
+        String query = "SELECT  * FROM "+ TABLE_NAME + " where status != '"+STATUS_SHOWN+"' order by " + NOTIFICATION_DATE + " asc limit 1";
 
         Cursor cursor = db.rawQuery(query, null);
 
