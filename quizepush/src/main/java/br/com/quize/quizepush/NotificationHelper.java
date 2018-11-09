@@ -83,6 +83,6 @@ public class NotificationHelper {
         Log.e("PUSH","Notification scheduled in millis update: " + futureInMillisAux);
 
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, futureInMillisAux, pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
     }
 }
