@@ -75,9 +75,8 @@ public class NotificationHelper {
         notificationIntent.putExtra(NotificationReceiver.NOTIFICATION_ID, idcontrol);
         notificationIntent.putExtra(NotificationReceiver.NOTIFICATION_MESSAGEID, id);
         notificationIntent.putExtra(NotificationReceiver.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,idcontrol, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-
-
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        
         long futureInMillisAux = futureInMillis - System.currentTimeMillis();
 
 //        Log.e("PUSH","Notification scheduled: " + data);

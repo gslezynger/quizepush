@@ -144,6 +144,7 @@ public class NotificationService extends JobService {
         Log.e("PUSH","Message displayed: " + id);
         DatabaseHelper db = new DatabaseHelper(context);
         db.UpdateShownNotification(id);
+        LoadAndScheduleAlarmNotifications(context);
     }
     public static Boolean CheckMessageShown(Context context,String id){
         DatabaseHelper db = new DatabaseHelper(context);
