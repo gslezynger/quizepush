@@ -70,12 +70,12 @@ public class NotificationHelper {
     }
     public void scheduleNotification(Notification notification,String id, long futureInMillis) {
 
-        int idcontrol = new Random().nextInt();
+        final int idcontrol = (int) System.currentTimeMillis();
         Intent notificationIntent = new Intent(mContext,NotificationReceiver.class);
         notificationIntent.putExtra(NotificationReceiver.NOTIFICATION_ID, idcontrol);
         notificationIntent.putExtra(NotificationReceiver.NOTIFICATION_MESSAGEID, id);
         notificationIntent.putExtra(NotificationReceiver.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, idcontrol, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,idcontrol, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
 
         long futureInMillisAux = futureInMillis - System.currentTimeMillis();
