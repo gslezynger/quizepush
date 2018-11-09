@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
@@ -80,9 +81,16 @@ public class NotificationHelper {
         long futureInMillisAux = futureInMillis - System.currentTimeMillis();
 
 //        Log.e("PUSH","Notification scheduled: " + data);
-        Log.e("PUSH","Notification scheduled in millis update: " + futureInMillisAux);
+//        Log.e("PUSH","Notification scheduled in millis update: " + futureInMillisAux);
 
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.e("PUSH","Notification > M scheduled in millis update: " + futureInMillisAux);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
+        }else{
+            Log.e("PUSH","Notification < M scheduled in millis update: " + futureInMillisAux);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
+        }
     }
 }

@@ -28,7 +28,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 
             if(!NotificationService.CheckMessageShown(context,idMessage)){
-                Log.e("PUSH","PASSANDO AQUI ONDE NAO DEVERIA");
                 notificationManager.notify(id, notification);
                 NotificationService.ShowedMessage(context,idMessage);
             }else{

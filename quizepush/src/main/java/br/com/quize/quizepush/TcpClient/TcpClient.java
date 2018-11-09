@@ -11,8 +11,8 @@ import java.util.Date;
 public class TcpClient {
 
     public static final String TAG = TcpClient.class.getSimpleName();
-    private static final String SERVER_IP = "18.217.197.99"; //server IP address
-    private static final int SERVER_PORT = 10069;
+    private static final String SERVER_IP = "pushnodes-a2551d2f448250df.elb.us-east-2.amazonaws.com"; //server IP address
+    private static final int SERVER_PORT = 6969;
 
 
     private Thread listeningTread = null;
