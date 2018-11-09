@@ -110,6 +110,8 @@ public class NotificationService extends JobService {
 
         for (DatabaseHelper.Notification n :notificationList ) {
             if(!n.DATE.before(new Date())){
+
+                Log.e("PUSH","Notification ID: "+ n.ID);
                 Notification noti = notificationHelper.createNotification(n.TITLE,n.TEXT);
 
                 notificationHelper.scheduleNotification(noti,n.ID,n.DATE.getTime());
