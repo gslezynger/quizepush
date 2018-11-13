@@ -35,7 +35,7 @@ public class NotificationService extends JobService {
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            builder.setMinimumLatency(INTERVAL);
+            builder.setMinimumLatency(INTERVAL).setOverrideDeadline(INTERVAL);
         }else{
             builder.setPeriodic(INTERVAL).setPersisted(true);
         }
@@ -75,7 +75,7 @@ public class NotificationService extends JobService {
                 //Reschedule the Service before calling job finished
                 if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
 //                    Toast.makeText(context, " STARTING JOB ", Toast.LENGTH_LONG).show();
-                    jobFinished(params,false);
+                    jobFinished(params,true);
                     schedule(context);
                 }else{
                     jobFinished(params,false);
