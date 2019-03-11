@@ -45,6 +45,7 @@ public class NotificationOldService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("[PUSH_QUIZE]","Service started ... ");
         this.start();
 
         return Service.START_STICKY;
