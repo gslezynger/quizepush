@@ -8,6 +8,7 @@ import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,24 +25,30 @@ public class NotificationService extends JobService {
     //5 minute interval
     private static final int INTERVAL =  1000 * 30 * 1;
 
+    private static boolean usingJobService() {
+        return Build.VERSION.SDK_INT >= 26;
+    }
+
     public static void schedule(Context context) {
-//        if(isJobServiceOn(context)){
-//            Toast.makeText(context, "  JOB ALREADY STARTED ", Toast.LENGTH_LONG).show();
-//            return;
-//        }
         Log.e("PUSH","Scheduling Push Loader");
-        ComponentName component = new ComponentName(context, NotificationService.class);
-        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, component);
 
+        if (usingJobService()) {
+            ComponentName component = new ComponentName(context, NotificationService.class);
+            JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, component);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                builder.setMinimumLatency(INTERVAL).setOverrideDeadline(INTERVAL);
+            }else{
+                builder.setPeriodic(INTERVAL).setPersisted(true);
+            }
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            builder.setMinimumLatency(INTERVAL).setOverrideDeadline(INTERVAL);
-        }else{
-            builder.setPeriodic(INTERVAL).setPersisted(true);
+            JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+            jobScheduler.schedule(builder.build());
+
+        } else {
+            Intent actionIntent = new Intent(context, NotificationOldService.class);
+            actionIntent.setAction("START");
+            context.startService(actionIntent);
         }
-
-        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        jobScheduler.schedule(builder.build());
     }
 
     @Override
@@ -72,14 +79,22 @@ public class NotificationService extends JobService {
 
                 Log.e("PUSH","ENDED NOTIFICATION RECEIVE");
                 LoadAndScheduleAlarmNotifications(context);
-                //Reschedule the Service before calling job finished
-                if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-//                    Toast.makeText(context, " STARTING JOB ", Toast.LENGTH_LONG).show();
-                    jobFinished(params,true);
-                    schedule(context);
-                }else{
-                    jobFinished(params,false);
-                }
+
+                jobFinished(params,false);
+                schedule(context);
+
+                //verificar pq eu fiz isso
+//
+//                //Reschedule the Service before calling job finished
+//                if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+////                    Toast.makeText(context, " STARTING JOB ", Toast.LENGTH_LONG).show();
+//
+//                    //finishes jobs and starts it again
+//                    jobFinished(params,true);
+//                    schedule(context);
+//                }else{
+//                    jobFinished(params,false);
+//                }
 
             }
 

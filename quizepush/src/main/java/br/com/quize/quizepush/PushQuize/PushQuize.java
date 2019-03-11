@@ -137,7 +137,7 @@ public class PushQuize {
             try{
                 return new String(text, "UTF-8").trim();
             }catch(Exception e){
-                Log.e("PUSH","ERROR GETTING UTF-8 from string");
+                Log.e("[PUSH_QUIZE]","ERROR GETTING UTF-8 from string");
                 return new String(text).trim();
             }
         }
@@ -229,7 +229,7 @@ public class PushQuize {
                             header.Init(dataheader);
                             //only receives messages and acks
                             if(header.control == ACK){
-                                Log.e("PUSH","ACKed com sucesso");
+                                Log.e("[PUSH_QUIZE]","ACKed com sucesso");
 
 
                                 hanshaked = true;
@@ -246,7 +246,7 @@ public class PushQuize {
                                 Message message = new Message(datamessage);
                                 client.SendMessage(GenerateMessageAckPacket(header.id,message.messageId));
 
-                                Log.e("PUSH","Messaged com sucesso: " + message.GetMessageTitle().trim() + message.GetMessageText().trim());
+                                Log.e("[PUSH_QUIZE]","Messaged com sucesso: " + message.GetMessageTitle().trim() + message.GetMessageText().trim());
 //                                phoneservice.sendNotification( message.GetMessageText().trim());
 //                                Intent resultIntent = new Intent(maincontext, MainActivity.class);
 //                                phoneservice.showNotificationMessage("Teste","Mensagem","2018-10-26 22:40:00",resultIntent);
@@ -331,7 +331,7 @@ public class PushQuize {
                             //only receives messages and acks
                             if(header.control == ACK){
                                 hanshaked = true;
-//                                Log.e("PUSH","ACKed com sucesso");
+//                                Log.e("[PUSH_QUIZE]","ACKed com sucesso");
                                 return ;
                             }
                             if(header.control == MS){
@@ -350,7 +350,7 @@ public class PushQuize {
                                 }
 
                                 client.SendMessage(GenerateMessageAckPacket(header.id,message.messageId));
-//                                Log.e("PUSH","Messaged com sucesso: " + message.GetMessageTitle().trim() + message.GetMessageText().trim());
+//                                Log.e("[PUSH_QUIZE]","Messaged com sucesso: " + message.GetMessageTitle().trim() + message.GetMessageText().trim());
                             }
                             if(header.control == ES){
                                 client.stopClient();
@@ -361,7 +361,7 @@ public class PushQuize {
 
                             }
                         }catch(Exception e){
-                            Log.e("PUSH",e.getMessage());
+                            Log.e("[PUSH_QUIZE]",e.getMessage());
                             client.stopClient();
                             if(!ended){
                                 ended = true;
@@ -371,7 +371,7 @@ public class PushQuize {
                     }
                     @Override
                     public void onConnectionClosed() {
-                        Log.e("PUSH","Closed Connection");
+                        Log.e("[PUSH_QUIZE]","Closed Connection");
                         if(!ended){
                             ended = true;
                             callback.endedNotification();
@@ -414,7 +414,7 @@ public class PushQuize {
 
 
     private Error DoHandshake() {
-        Log.e("PUSH","Doing handshake");
+        Log.e("[PUSH_QUIZE]","Doing handshake");
         if (client == null) {
             return new Error("Connection not started");
         }
@@ -427,7 +427,7 @@ public class PushQuize {
 
             Thread.sleep(10 * 1000);
             if( !hanshaked ){
-                Log.e("PUSH","FAILED handshake");
+                Log.e("[PUSH_QUIZE]","FAILED handshake");
 
                 throw new Exception("FAILED HANDSHAKE");
             }
@@ -438,10 +438,10 @@ public class PushQuize {
         return null;
     }
     private Error DoHeartBeat( ) {
-        Log.e("PUSH","SENDING HEART BEAT");
+        Log.e("[PUSH_QUIZE]","SENDING HEART BEAT");
         byte[] data = GenerateHeartBeatPacket();
 
-        Log.e("PUSH","Tamanho pacote: " + data.length);
+        Log.e("[PUSH_QUIZE]","Tamanho pacote: " + data.length);
         try{
             client.SendMessage(data);
         }catch(Exception e){
@@ -520,7 +520,7 @@ public class PushQuize {
         File fileServerKey = new File (root.getAbsolutePath() + "/private","serverKey.txt");
 
         file.getParentFile().mkdirs();
-//        Log.e("PUSH",directory.toPath().toString());
+//        Log.e("[PUSH_QUIZE]",directory.toPath().toString());
 
         try {
 
