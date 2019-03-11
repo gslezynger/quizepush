@@ -49,7 +49,7 @@ public class NotificationOldService extends Service {
         Log.d("[PUSH_QUIZE]","Service started ... ");
         this.start();
 
-        return Service.START_STICKY;
+        return Service.START_NOT_STICKY;
     }
 
     private void start() {
