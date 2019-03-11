@@ -41,7 +41,7 @@ public class NotificationOldService extends Service {
 
     public void onDestroy() {
         Log.d("[PUSH_QUIZE]","Service destroyed,recreating");
-        restartServiceForced();
+//        restartServiceForced();
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
