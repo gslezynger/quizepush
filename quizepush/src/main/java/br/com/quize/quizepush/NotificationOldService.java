@@ -34,14 +34,13 @@ public class NotificationOldService extends Service {
     public void restartServiceForced(){
         Intent restartService = new Intent(this.getApplicationContext(), this.getClass());
         restartService.setPackage(this.getPackageName());
-        PendingIntent restartServiceIntent = PendingIntent.getService(this.getApplicationContext(), 1, restartService, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent restartServiceIntent = PendingIntent.getService(this.getApplicationContext(), 1, restartService, PendingIntent.FLAG_UPDATE_CURRENT);
         this.mAlarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 3000L, restartServiceIntent);
     }
-
-
+    
     public void onDestroy() {
         Log.d("[PUSH_QUIZE]","Service destroyed,recreating");
-//        restartServiceForced();
+        restartServiceForced();
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
